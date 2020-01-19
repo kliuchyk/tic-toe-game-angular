@@ -1,0 +1,44 @@
+
+<div class="top">
+  <button class="btn" (click)="newGame()">Restart</button>
+  <div *ngIf="isBotNext; else elseBlock">Bot</div>
+  <ng-template #elseBlock>Your turn</ng-template>
+</div>
+
+<div class="board">
+  <app-square
+    *ngFor="let value of squares; let i = index"
+    [value]="value"
+    [winner]="winner"
+    (click)="makeMove(i)">
+  </app-square>
+</div>
+
+<button
+  class="btn"
+  *ngIf="isGameFinished"
+  (click)="showModal('logs')"
+  >Show Logs</button>
+
+
+<app-modal id="winner" class="hidden">
+  <div class="winner-modal">
+    <span>{{player}} win!</span>
+    <button class="btn" (click)="closeModal('winner')">OK</button>
+  </div>
+</app-modal>
+
+<app-modal id="logs" class="hidden">
+  <div class="logs-modal">
+    <div>Logs</div>
+    <div class="logs-container">
+      <div *ngFor="let log of logs" class="log-item">
+        <span class="log-data">{{log.time}}</span>
+        <span class="log-data">{{log.player}}</span>
+        <span class="log-data">Row: {{log.row}}</span>
+        <span class="log-data">Place: {{log.place}}</span>
+      </div>
+    </div>
+    <button class="btn" (click)="closeModal('logs')">OK</button>
+  </div>
+</app-modal>
